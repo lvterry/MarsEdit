@@ -14,11 +14,15 @@ xcodebuild -scheme Yanmo -destination 'platform=macOS' test   # run the test sui
 
 Only third-party dependency: `swift-markdown` (Apple, SwiftPM, declared in `project.yml`). No CI.
 
+Keep only `Yanmo.xcodeproj` at the repository root. Extra `.xcodeproj` directories make `xcodebuild -scheme Yanmo ...` ambiguous unless `-project Yanmo.xcodeproj` is supplied.
+
 ## Tests
 
 XCTest target `YanmoTests` (`YanmoTests/`) covers pure-logic and security-sensitive modules: `FrontMatter`, `OutlineItem` parsing, `MarkdownRenderer` (sanitization + local-asset path resolution), and `TemplateStore` (seeding + listing). UI, AppKit, and WebKit layers are not unit-tested — verify those by running the app. When changing renderer sanitization or `LocalAssetSchemeHandler` containment, add a corresponding test.
 
 **Run the test suite before committing any code change**, even ones that look UI-only — `MarkdownRenderer`, `FrontMatter`, and `OutlineItem` are imported widely and a refactor elsewhere can break them. Use `xcodebuild -scheme Yanmo -destination 'platform=macOS' test`. Don't commit on a red suite.
+
+`YanmoTests` is hosted inside `Yanmo.app`, so the test target must use the same Apple Developer Team as the app target. Keep the test target signing settings in `project.yml` (`CODE_SIGN_IDENTITY: Apple Development`, `CODE_SIGN_STYLE: Automatic`, `DEVELOPMENT_TEAM: S3J499CH5F`) or the test bundle can fail to load with a Team ID mismatch.
 
 ## Layout
 
@@ -70,6 +74,7 @@ text  ──>  MarkdownDocument  ──>  EditorView (NSTextView)
 ## Conventions & gotchas
 
 - **XcodeGen.** Edit `project.yml`, then re-run `xcodegen generate`. Never edit the `.xcodeproj` directly.
+- **Signing.** `S3J499CH5F` is the current Apple Developer Team. Debug tests use Apple Development signing for the test bundle; direct-download releases use `Developer ID Application: Beijing Wisemind Technologies Co., Ltd (S3J499CH5F)`.
 - **`DocumentSession` event flow.** Format actions, view-mode cycling, export, scroll-to-heading, and toasts flow through the per-window `DocumentSession` (typed `PassthroughSubject<Event, Never>`). Children get it via `@EnvironmentObject`; menu commands target the active window via `@FocusedValue(\.documentSession)` published from `ContentView` with `focusedSceneValue`. To find handlers, search `session.events.sink` and `.onReceive(session.events)`. Don't use `NotificationCenter` for app-internal events — that's reserved for AppKit system notifications (e.g. `NSWindow.didEndSheetNotification`).
 - **NSTextView, not SwiftUI `TextEditor`.** Chosen for IME, find bar, performance. Don't replace.
 - **Debounced, scoped syntax highlighting (~150ms).** Must skip fenced code blocks and front matter regions. During IME composition (`textView.hasMarkedText()`) highlighting and updates are deferred — preserve this when changing the editor.
@@ -150,6 +155,50 @@ These follow Apple HIG and document-based app expectations.
 - **Appearance follows the system** unless the user explicitly overrode it (`AppearanceMode.system` is the default; `applyAppearanceMode` only sets `NSApp.appearance` for non-system modes).
 - **Keyboard shortcuts match Mac defaults.** `.command` for primary, `.shift` for capitalized/inverted variants, `.option` for alternatives. Bold = ⌘B, Italic = ⌘I, Cycle View Mode = ⇧⌘P, etc.
 - **Native widgets, not reskins.** `HSplitView`, `NSSavePanel`, `NSAlert`, `NSPrintOperation` — use the system controls so users get the system behaviors (drag handles, sandbox prompts, accessibility, localization) for free.
+
+## Direct download release
+
+Yanmo is currently set up for direct macOS distribution, not Mac App Store distribution. Release builds should be signed with Developer ID, notarized, stapled, and distributed as a DMG.
+
+Use a fresh output directory for each release:
+
+```sh
+mkdir -p build/Release-YYYYMMDD-yanmo
+xcodebuild archive \
+  -scheme Yanmo \
+  -configuration Release \
+  -destination 'generic/platform=macOS' \
+  -archivePath build/Release-YYYYMMDD-yanmo/Yanmo.xcarchive \
+  DEVELOPMENT_TEAM=S3J499CH5F \
+  CODE_SIGN_STYLE=Manual \
+  CODE_SIGN_IDENTITY='Developer ID Application' \
+  PROVISIONING_PROFILE_SPECIFIER=''
+```
+
+Package the archived app into a DMG with an `/Applications` shortcut, then sign the DMG:
+
+```sh
+mkdir -p build/Release-YYYYMMDD-yanmo/dmg-root
+ditto build/Release-YYYYMMDD-yanmo/Yanmo.xcarchive/Products/Applications/Yanmo.app build/Release-YYYYMMDD-yanmo/dmg-root/Yanmo.app
+ln -s /Applications build/Release-YYYYMMDD-yanmo/dmg-root/Applications
+hdiutil create -volname Yanmo -srcfolder build/Release-YYYYMMDD-yanmo/dmg-root -ov -format UDZO build/Release-YYYYMMDD-yanmo/Yanmo-<version>.dmg
+codesign --force --sign 'Developer ID Application: Beijing Wisemind Technologies Co., Ltd (S3J499CH5F)' build/Release-YYYYMMDD-yanmo/Yanmo-<version>.dmg
+```
+
+Notarize and staple the signed DMG. The local notarytool keychain profile is `yanmo-notary`; never commit Apple ID passwords or app-specific passwords.
+
+```sh
+xcrun notarytool submit build/Release-YYYYMMDD-yanmo/Yanmo-<version>.dmg --keychain-profile yanmo-notary --wait
+xcrun stapler staple build/Release-YYYYMMDD-yanmo/Yanmo-<version>.dmg
+spctl --assess --type open --context context:primary-signature --verbose=4 build/Release-YYYYMMDD-yanmo/Yanmo-<version>.dmg
+```
+
+Expected final Gatekeeper result:
+
+```text
+accepted
+source=Notarized Developer ID
+```
 
 ## What this project does NOT have
 
