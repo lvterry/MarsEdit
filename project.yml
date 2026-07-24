@@ -59,6 +59,9 @@ targets:
         SWIFT_VERSION: "5.9"
         MACOSX_DEPLOYMENT_TARGET: "13.0"
         GENERATE_INFOPLIST_FILE: "YES"
+        CODE_SIGN_IDENTITY: "Apple Development"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: S3J499CH5F
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Yanmo.app/Contents/MacOS/Yanmo"
         BUNDLE_LOADER: "$(TEST_HOST)"
 
