@@ -8,7 +8,7 @@ struct YanmoApp: App {
 
     init() {
         // Instantiate early so it observes the first document window.
-        _ = WindowFrameRestorer.shared
+        _ = DefaultWindowSize.shared
     }
 
     var body: some Scene {

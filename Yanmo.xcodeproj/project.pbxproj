@@ -14,6 +14,7 @@
 		176448201F835B471376DED4 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6644D7851974395F9550DA /* Markdown */; };
 		244F4CC51329121F05D17C10 /* YanmoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2CBAE570E61F0204C6CD65 /* YanmoApp.swift */; };
 		2CEB74E036F599E174B4878C /* MarkdownRendererPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18937599CC2BA3C3B05B96C /* MarkdownRendererPathTests.swift */; };
+		33D8F74E047954F67A364624 /* DefaultWindowSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5142B06EC3253F99D3AC9F15 /* DefaultWindowSize.swift */; };
 		3909623B746056880A043F12 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC4E9AFE81A9E12B7D306B6 /* MarkdownRenderer.swift */; };
 		3CD3B1C42E34A8AFDBDF547E /* OutlineParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8B9802DEF3AA6F37A675D /* OutlineParserTests.swift */; };
 		4140B2B7E19DD24D1A55B508 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8810561BEE28DE409FCCE05D /* ViewMode.swift */; };
@@ -35,7 +36,6 @@
 		990F32C22F1323C7BCAEEE32 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DAE97C534C465F68E87B14 /* AppSettings.swift */; };
 		99E07313D0298AFC482C35C4 /* TemplateStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1B6E8A31C716F6166895B2 /* TemplateStoreTests.swift */; };
 		A37B7F192C341DBFAEE8E89C /* AppSettingsThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AC50BB96377FAFB977D381 /* AppSettingsThemeTests.swift */; };
-		A39AB71094D43F3B7C63E00B /* WindowFrameRestorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72CCFBDDBD72027C113F71 /* WindowFrameRestorer.swift */; };
 		B00377A35D123668ACD1A359 /* FrontMatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D57A48D8B6B6C0406CF75E /* FrontMatter.swift */; };
 		B0BB29BEFA45DA3AFBD97270 /* SyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6456C7B024C6594C8595C338 /* SyntaxHighlighter.swift */; };
 		B6D5E0E7D2428A0BEB982A0D /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = D9282E6E724EA8ED0F1F6213 /* Themes */; };
@@ -71,6 +71,7 @@
 		3A101A99024583B6C4DFB3AF /* OutlineItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineItem.swift; sourceTree = "<group>"; };
 		4127966017BB4B82BB4C7CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		42FDFD7AAEFFE91FC7744439 /* HTMLExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLExporter.swift; sourceTree = "<group>"; };
+		5142B06EC3253F99D3AC9F15 /* DefaultWindowSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWindowSize.swift; sourceTree = "<group>"; };
 		51DAE97C534C465F68E87B14 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		53D57A48D8B6B6C0406CF75E /* FrontMatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontMatter.swift; sourceTree = "<group>"; };
 		54AC50BB96377FAFB977D381 /* AppSettingsThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsThemeTests.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		6456C7B024C6594C8595C338 /* SyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHighlighter.swift; sourceTree = "<group>"; };
 		6BA8B9802DEF3AA6F37A675D /* OutlineParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineParserTests.swift; sourceTree = "<group>"; };
 		77375C466E9A1011934790AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7B72CCFBDDBD72027C113F71 /* WindowFrameRestorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFrameRestorer.swift; sourceTree = "<group>"; };
 		7D48D13C089A99041E4B2E51 /* FontPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPickerButton.swift; sourceTree = "<group>"; };
 		7FC4E9AFE81A9E12B7D306B6 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
 		7FDA74E25AB6EFF47374CABE /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		00643DD3E9B7EA23EC09F524 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				7B72CCFBDDBD72027C113F71 /* WindowFrameRestorer.swift */,
+				5142B06EC3253F99D3AC9F15 /* DefaultWindowSize.swift */,
 				2E2CBAE570E61F0204C6CD65 /* YanmoApp.swift */,
 			);
 			path = App;
@@ -362,6 +362,7 @@
 				990F32C22F1323C7BCAEEE32 /* AppSettings.swift in Sources */,
 				7C6673E9BEB81506D1B54263 /* CommandLineToolInstaller.swift in Sources */,
 				8277CB3F701D0BE305CE0584 /* ContentView.swift in Sources */,
+				33D8F74E047954F67A364624 /* DefaultWindowSize.swift in Sources */,
 				0072377411698E8BC36B98E8 /* EditorView.swift in Sources */,
 				B9EA2FAA6E212C5861FAAA1F /* FontPickerButton.swift in Sources */,
 				B00377A35D123668ACD1A359 /* FrontMatter.swift in Sources */,
@@ -381,7 +382,6 @@
 				4E61DB03746989FE81B64644 /* Theme.swift in Sources */,
 				6FCE6BE2B7C5E53373871FBF /* ToolbarView.swift in Sources */,
 				4140B2B7E19DD24D1A55B508 /* ViewMode.swift in Sources */,
-				A39AB71094D43F3B7C63E00B /* WindowFrameRestorer.swift in Sources */,
 				244F4CC51329121F05D17C10 /* YanmoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
