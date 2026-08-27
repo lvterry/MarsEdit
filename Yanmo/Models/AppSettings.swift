@@ -63,6 +63,8 @@ final class AppSettings: ObservableObject {
     @AppStorage("toolbarVisible") var toolbarVisible: Bool = true
     @AppStorage("sidebarVisible") var sidebarVisible: Bool = false
     @AppStorage("viewMode") var viewMode: ViewMode = .defaultMode
+    /// Editor pane width in split view; 0 means "no saved width yet".
+    @AppStorage("editorPaneWidth") var editorPaneWidth: Double = 0
 
     var currentTheme: Theme {
         let isDark: Bool

@@ -40,6 +40,7 @@
 		B0BB29BEFA45DA3AFBD97270 /* SyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6456C7B024C6594C8595C338 /* SyntaxHighlighter.swift */; };
 		B6D5E0E7D2428A0BEB982A0D /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = D9282E6E724EA8ED0F1F6213 /* Themes */; };
 		B9EA2FAA6E212C5861FAAA1F /* FontPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D48D13C089A99041E4B2E51 /* FontPickerButton.swift */; };
+		D4911C04F2E313231B6F8861 /* SplitDividerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC288BA67EC62DC2C9F22F72 /* SplitDividerController.swift */; };
 		DA861E96F9D732C8FF10EB6C /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35807AC6D48C2C845DDBBBFD /* PreferencesView.swift */; };
 		E873113579AEA367678DB6A5 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F31049A0896506837B3D6 /* PreviewView.swift */; };
 		F93FF048E3C9445DD7CD4ADF /* OutlineSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB4516F76D6A6B7A188A06 /* OutlineSidebar.swift */; };
@@ -87,6 +88,7 @@
 		9305B2995E9BE7292DC42847 /* Yanmo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yanmo.entitlements; sourceTree = "<group>"; };
 		9D36B36EED539F5EDB804A8A /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		B19D6A1CE628230B6A5341B7 /* Yanmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yanmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC288BA67EC62DC2C9F22F72 /* SplitDividerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitDividerController.swift; sourceTree = "<group>"; };
 		BE01326BF9DC666C9D2EA744 /* CommandLineToolInstallerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineToolInstallerTests.swift; sourceTree = "<group>"; };
 		C669319C1474BF86E439FAC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D9282E6E724EA8ED0F1F6213 /* Themes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Themes; path = Yanmo/Resources/Themes; sourceTree = SOURCE_ROOT; };
@@ -183,6 +185,7 @@
 				0692BDB9BC777A4CE089D54B /* EditorView.swift */,
 				57BB4516F76D6A6B7A188A06 /* OutlineSidebar.swift */,
 				DD3F31049A0896506837B3D6 /* PreviewView.swift */,
+				BC288BA67EC62DC2C9F22F72 /* SplitDividerController.swift */,
 				9D36B36EED539F5EDB804A8A /* StatusBarView.swift */,
 				589216E85F973407A19F0386 /* ToolbarView.swift */,
 			);
@@ -371,6 +374,7 @@
 				09E5973F989AE6BB6F3A50F1 /* PDFExporter.swift in Sources */,
 				DA861E96F9D732C8FF10EB6C /* PreferencesView.swift in Sources */,
 				E873113579AEA367678DB6A5 /* PreviewView.swift in Sources */,
+				D4911C04F2E313231B6F8861 /* SplitDividerController.swift in Sources */,
 				4751DEE6DD2144CBD75120AB /* StatusBarView.swift in Sources */,
 				B0BB29BEFA45DA3AFBD97270 /* SyntaxHighlighter.swift in Sources */,
 				06A661E8EEA3024785F5ED3D /* TemplateStore.swift in Sources */,

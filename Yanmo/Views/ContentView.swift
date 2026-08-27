@@ -38,6 +38,7 @@ struct ContentView: View {
                                 cursorPosition: $cursorPosition
                             )
                             .frame(minWidth: 200)
+                            .background(SplitDividerController())
                         }
 
                         if settings.viewMode != .editorOnly {
