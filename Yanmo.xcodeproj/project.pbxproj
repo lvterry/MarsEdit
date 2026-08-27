@@ -300,6 +300,10 @@
 						DevelopmentTeam = S3J499CH5F;
 						ProvisioningStyle = Automatic;
 					};
+					D332A06AD34FB871155A675E = {
+						DevelopmentTeam = S3J499CH5F;
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = CD73A85117FCBB5640E8EC3E /* Build configuration list for PBXProject "Yanmo" */;
@@ -402,7 +406,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yanmo/Yanmo.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S3J499CH5F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Yanmo/Info.plist;
@@ -424,7 +431,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yanmo/Yanmo.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S3J499CH5F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Yanmo/Info.plist;
