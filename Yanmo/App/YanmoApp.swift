@@ -6,6 +6,11 @@ import Combine
 struct YanmoApp: App {
     @StateObject private var settings = AppSettings.shared
 
+    init() {
+        // Instantiate early so it observes the first document window.
+        _ = WindowFrameRestorer.shared
+    }
+
     var body: some Scene {
         DocumentGroup(newDocument: { MarkdownDocument() }) { file in
             ContentView(document: file.document, fileURL: file.fileURL)
