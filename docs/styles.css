@@ -15,6 +15,7 @@
 }
 
 :root {
+  color-scheme: light dark;
   --color-page: oklch(0.985 0.003 255);
   --color-surface: oklch(1 0 0);
   --color-text: oklch(0.22 0.018 255);
@@ -34,6 +35,18 @@
   --page-width: 90rem;
   --text-body: 1rem;
   --text-display: clamp(2rem, 3.2vw, 3.25rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-page: oklch(0.17 0.012 255);
+    --color-surface: oklch(0.23 0.014 255);
+    --color-text: oklch(0.93 0.006 255);
+    --color-muted: oklch(0.68 0.012 255);
+    --color-border: rgb(226 232 238 / 0.16);
+    --color-focus: oklch(0.72 0.14 250);
+    --shadow-window: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 30px rgb(0 0 0 / 0.45);
+  }
 }
 
 * {
