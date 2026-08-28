@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Yanmo</title>
+        <item>
+            <title>0.9</title>
+            <pubDate>Fri, 28 Aug 2026 11:41:19 +0800</pubDate>
+            <sparkle:version>8</sparkle:version>
+            <sparkle:shortVersionString>0.9</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://github.com/lvterry/Yanmo/releases/download/v0.9/Yanmo-0.9.md</sparkle:releaseNotesLink>
+            <enclosure url="https://github.com/lvterry/Yanmo/releases/download/v0.9/Yanmo-0.9.dmg" length="6676242" type="application/octet-stream" sparkle:edSignature="5lmayCiW3wj+Qv2du+anRXrzPaK9ZfO7pH8zF91X4+CLXUzHGfBR8phKcI9lIoRZhmYLHjVmhmlCToxCEFEeCw=="/>
+        </item>
+    </channel>
+</rss>
