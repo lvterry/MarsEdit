@@ -1,4 +1,4 @@
-# Releases
+# Release process
 
 ## One-time setup
 
