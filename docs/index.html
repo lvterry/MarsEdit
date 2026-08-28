@@ -1,16 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Yanmo is a native Markdown editor for macOS.">
-    <title>Yanmo</title>
+    <meta name="description" content="Yanmo is a native macOS Markdown editor with live preview, themes, templates, and HTML/PDF export.">
+    <meta property="og:title" content="Yanmo — Native Markdown editor for macOS">
+    <meta property="og:description" content="Write Markdown in a focused native editor, preview it live, and export clean HTML or PDF.">
+    <meta property="og:image" content="https://yanmo.app/assets/screenshots/yanmo-split.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yanmo.app/">
+    <link rel="canonical" href="https://yanmo.app/">
+    <link rel="icon" href="assets/favicon.png" sizes="32x32" type="image/png">
+    <link rel="preload" href="assets/fonts/source-sans-pro-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/source-sans-pro-semibold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/screenshots/yanmo-split.jpg" as="image">
+    <link rel="stylesheet" href="styles.css">
+    <script src="site.js" defer></script>
+    <title>Yanmo — Native Markdown editor for macOS</title>
   </head>
   <body>
-    <main>
-      <h1>Yanmo</h1>
-      <p>A native Markdown editor for macOS.</p>
-      <p>The public beta site is coming soon.</p>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="intro">
+          <h1 id="hero-title">Yanmo is a native Markdown editor for macOS, with a focused editor, live preview, templates, themes, and clean HTML/PDF export.</h1>
+
+          <div class="download">
+            <a class="download-button" href="https://github.com/lvterry/Yanmo/releases/download/v0.9/Yanmo-0.9.dmg">Download public beta</a>
+            <p class="download-note">Version 0.9 · macOS 13 or later</p>
+          </div>
+        </div>
+
+        <section class="showcase" aria-label="Yanmo app screenshots">
+          <div class="slides" aria-live="off">
+            <figure class="slide is-active" id="slide-split" aria-hidden="false">
+              <img src="assets/screenshots/yanmo-split.jpg" width="1500" height="883" alt="Yanmo showing Markdown source and its live preview side by side" fetchpriority="high">
+            </figure>
+            <figure class="slide" id="slide-editor" aria-hidden="true">
+              <img src="assets/screenshots/yanmo-editor.jpg" width="1500" height="883" alt="Yanmo in its focused editor-only view">
+            </figure>
+            <figure class="slide" id="slide-preview" aria-hidden="true">
+              <img src="assets/screenshots/yanmo-preview.jpg" width="1500" height="883" alt="Yanmo in its clean preview-only view">
+            </figure>
+          </div>
+
+          <div class="carousel-controls" role="group" aria-label="Choose a screenshot">
+            <button class="carousel-control" type="button" aria-label="Show split view" aria-controls="slide-split" aria-current="true"><span aria-hidden="true"></span></button>
+            <button class="carousel-control" type="button" aria-label="Show editor view" aria-controls="slide-editor" aria-current="false"><span aria-hidden="true"></span></button>
+            <button class="carousel-control" type="button" aria-label="Show preview view" aria-controls="slide-preview" aria-current="false"><span aria-hidden="true"></span></button>
+          </div>
+        </section>
+      </section>
+
+      <footer class="footer">Made by Jellyrbt. All rights reserved.</footer>
     </main>
   </body>
 </html>

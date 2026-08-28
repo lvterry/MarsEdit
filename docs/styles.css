@@ -1,0 +1,283 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/source-sans-pro-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/source-sans-pro-semibold.woff2") format("woff2");
+}
+
+:root {
+  --color-page: oklch(0.985 0.003 255);
+  --color-surface: oklch(1 0 0);
+  --color-text: oklch(0.22 0.018 255);
+  --color-muted: oklch(0.51 0.018 255);
+  --color-border: rgb(18 24 31 / 0.12);
+  --color-focus: oklch(0.58 0.16 250);
+  --shadow-window: 0 1px 2px rgb(18 24 31 / 0.08), 0 10px 30px rgb(18 24 31 / 0.09);
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
+  --radius-control: 0.625rem;
+  --radius-window: 1rem;
+  --page-width: 90rem;
+  --text-body: 1rem;
+  --text-display: clamp(2rem, 3.2vw, 3.25rem);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-block-size: 100%;
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-block-size: 100dvh;
+  margin: 0;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+.page {
+  display: flex;
+  min-block-size: 100dvh;
+  max-inline-size: var(--page-width);
+  margin-inline: auto;
+  padding: clamp(var(--space-5), 6vw, var(--space-7));
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.hero {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(18rem, 0.78fr) minmax(32rem, 1.22fr);
+  align-items: center;
+  gap: clamp(var(--space-6), 7vw, 7rem);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+h1 {
+  max-inline-size: 19ch;
+  margin: 0;
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.download {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.download-button {
+  display: inline-flex;
+  min-block-size: 3.5rem;
+  padding-inline: var(--space-5);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-control);
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.download-button:active {
+  transform: translateY(1px);
+}
+
+.download-button:focus-visible,
+.carousel-control:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.download-note {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+.showcase {
+  min-inline-size: 0;
+}
+
+.slides {
+  position: relative;
+  aspect-ratio: 1500 / 883;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-window);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-window);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 240ms ease-in-out, visibility 0s linear 240ms;
+}
+
+.slide.is-active {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.slides.is-instant .slide {
+  transition: none;
+}
+
+.slide img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.carousel-controls {
+  display: flex;
+  margin-block-start: var(--space-1);
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.carousel-control {
+  position: relative;
+  display: inline-flex;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carousel-control::before {
+  position: absolute;
+  inset: -0.5rem;
+  content: "";
+}
+
+.carousel-control span {
+  inline-size: 0.625rem;
+  block-size: 0.625rem;
+  border: 1px solid var(--color-text);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.carousel-control[aria-current="true"] span {
+  background: var(--color-text);
+}
+
+.footer {
+  color: var(--color-muted);
+  font-size: var(--text-body);
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .download-button:hover {
+    background: color-mix(in oklch, var(--color-text) 86%, white);
+  }
+
+  .carousel-control[aria-current="false"]:hover span {
+    background: color-mix(in oklch, var(--color-text) 24%, transparent);
+  }
+}
+
+@media (max-width: 58rem) {
+  .page {
+    gap: var(--space-5);
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: var(--space-6);
+  }
+
+  h1 {
+    max-inline-size: 23ch;
+  }
+}
+
+@media (max-width: 34rem) {
+  .page {
+    padding-inline: var(--space-4);
+    padding-block: var(--space-5);
+  }
+
+  .hero {
+    gap: var(--space-5);
+  }
+
+  .intro {
+    gap: var(--space-4);
+  }
+
+  .download-button {
+    inline-size: 100%;
+  }
+
+  .download {
+    inline-size: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+
+  .download-button:active {
+    transform: none;
+  }
+}
