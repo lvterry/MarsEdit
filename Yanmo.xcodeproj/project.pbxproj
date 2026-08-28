@@ -16,6 +16,7 @@
 		2CEB74E036F599E174B4878C /* MarkdownRendererPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18937599CC2BA3C3B05B96C /* MarkdownRendererPathTests.swift */; };
 		33D8F74E047954F67A364624 /* DefaultWindowSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5142B06EC3253F99D3AC9F15 /* DefaultWindowSize.swift */; };
 		3909623B746056880A043F12 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC4E9AFE81A9E12B7D306B6 /* MarkdownRenderer.swift */; };
+		3BE077183B8CAF3BD762F740 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 191161F298104D55349E4B78 /* Sparkle */; };
 		3CD3B1C42E34A8AFDBDF547E /* OutlineParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8B9802DEF3AA6F37A675D /* OutlineParserTests.swift */; };
 		4140B2B7E19DD24D1A55B508 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8810561BEE28DE409FCCE05D /* ViewMode.swift */; };
 		428926D09F5A868DE1717321 /* MarkdownRendererSanitizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B366B70318C26E7210C29A7 /* MarkdownRendererSanitizationTests.swift */; };
@@ -105,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				176448201F835B471376DED4 /* Markdown in Frameworks */,
+				3BE077183B8CAF3BD762F740 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +284,7 @@
 			name = Yanmo;
 			packageProductDependencies = (
 				7B6644D7851974395F9550DA /* Markdown */,
+				191161F298104D55349E4B78 /* Sparkle */,
 			);
 			productName = Yanmo;
 			productReference = B19D6A1CE628230B6A5341B7 /* Yanmo.app */;
@@ -316,6 +319,7 @@
 			mainGroup = EA7AD65C397139B5D9D32F40;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				AAADEE39A41CBB46B4C2EFC0 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				5F500FE1F958B6D72F4CE102 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -655,9 +659,22 @@
 				minimumVersion = 0.4.0;
 			};
 		};
+		AAADEE39A41CBB46B4C2EFC0 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.9.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		191161F298104D55349E4B78 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAADEE39A41CBB46B4C2EFC0 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
 		7B6644D7851974395F9550DA /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5F500FE1F958B6D72F4CE102 /* XCRemoteSwiftPackageReference "swift-markdown" */;

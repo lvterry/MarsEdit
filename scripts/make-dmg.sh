@@ -1,65 +1,83 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
 cd "$(dirname "$0")/.."
 
-xcodegen generate
+readonly APP_NAME="Yanmo"
+readonly PROJECT_NAME="Yanmo"
+readonly NOTARY_PROFILE="yanmo-notary"
+readonly BUILD_DIR="build"
+readonly DIST_DIR="dist"
+readonly ARCHIVE_PATH="${BUILD_DIR}/${APP_NAME}.xcarchive"
+readonly EXPORT_DIR="${BUILD_DIR}/export"
+readonly EXPORT_OPTIONS="scripts/ExportOptions.plist"
+readonly SOURCE_PACKAGES="${BUILD_DIR}/SourcePackages"
+readonly INFO_PLIST="${PROJECT_NAME}/Info.plist"
 
-APP_NAME="Yanmo"
-PROJECT_NAME="Yanmo"
-VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "${PROJECT_NAME}/Info.plist")
-BUILD_DIR="build"
-DIST_DIR="dist"
-DMG_PATH="${DIST_DIR}/${APP_NAME}-${VERSION}.dmg"
+readonly VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$INFO_PLIST")
+readonly DMG_PATH="${DIST_DIR}/${APP_NAME}-${VERSION}.dmg"
 
-# Distribution signing: Developer ID + notarization so Gatekeeper
-# passes on machines that never saw this Mac.
-SIGN_IDENTITY="Developer ID Application"
-NOTARY_PROFILE="yanmo-notary"
-
-if ! xcrun notarytool history --keychain-profile "${NOTARY_PROFILE}" >/dev/null 2>&1; then
-  echo "notarytool keychain profile '${NOTARY_PROFILE}' not found" >&2
-  echo "set it up once with:" >&2
-  echo "  xcrun notarytool store-credentials ${NOTARY_PROFILE}" >&2
-  echo "(uses an App Store Connect API key or app-specific password)" >&2
+if ! xcrun notarytool history --keychain-profile "$NOTARY_PROFILE" >/dev/null 2>&1; then
+  echo "notary profile '${NOTARY_PROFILE}' not found" >&2
+  echo "run: xcrun notarytool store-credentials ${NOTARY_PROFILE}" >&2
   exit 1
 fi
 
-rm -rf "$BUILD_DIR" "$DIST_DIR"
-mkdir -p "$DIST_DIR"
+rm -rf "$ARCHIVE_PATH" "$EXPORT_DIR" "$DIST_DIR"
+mkdir -p "$BUILD_DIR" "$DIST_DIR"
 
+xcodegen generate
+
+echo "==> Archiving"
 xcodebuild \
   -project "${PROJECT_NAME}.xcodeproj" \
-  -target "$PROJECT_NAME" \
+  -scheme "$PROJECT_NAME" \
   -configuration Release \
-  CONFIGURATION_BUILD_DIR="${PWD}/${BUILD_DIR}/Release" \
-  build
+  -destination "generic/platform=macOS" \
+  -archivePath "$ARCHIVE_PATH" \
+  -clonedSourcePackagesDirPath "$SOURCE_PACKAGES" \
+  -disableAutomaticPackageResolution \
+  -onlyUsePackageVersionsFromResolvedFile \
+  archive
 
-APP_PATH="${BUILD_DIR}/Release/${APP_NAME}.app"
+echo "==> Exporting Developer ID app"
+xcodebuild \
+  -exportArchive \
+  -archivePath "$ARCHIVE_PATH" \
+  -exportPath "$EXPORT_DIR" \
+  -exportOptionsPlist "$EXPORT_OPTIONS"
 
-codesign --force --deep --options runtime --sign "${SIGN_IDENTITY}" "$APP_PATH"
-codesign --verify --deep --strict "$APP_PATH"
+readonly APP_PATH="${EXPORT_DIR}/${APP_NAME}.app"
 
-# Notarize the app itself so it launches offline, then staple the ticket on.
-APP_ZIP="${BUILD_DIR}/${APP_NAME}.zip"
-ditto -c -k --keepParent "$APP_PATH" "$APP_ZIP"
-xcrun notarytool submit "$APP_ZIP" --wait --keychain-profile "${NOTARY_PROFILE}"
+codesign --verify --deep --strict --verbose=2 "$APP_PATH"
+
+echo "==> Notarizing app"
+readonly APP_ZIP="${BUILD_DIR}/${APP_NAME}.zip"
+rm -f "$APP_ZIP"
+ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$APP_ZIP"
+xcrun notarytool submit "$APP_ZIP" --wait --keychain-profile "$NOTARY_PROFILE"
 xcrun stapler staple "$APP_PATH"
+xcrun stapler validate "$APP_PATH"
+spctl -a -t exec -vv "$APP_PATH"
 
-STAGE=$(mktemp -d)
+readonly STAGE=$(mktemp -d)
 trap 'rm -rf "$STAGE"' EXIT
-cp -R "$APP_PATH" "$STAGE/"
-ln -s /Applications "$STAGE/Applications"
+
+ditto "$APP_PATH" "${STAGE}/${APP_NAME}.app"
+ln -s /Applications "${STAGE}/Applications"
 
 hdiutil create \
   -volname "$APP_NAME" \
   -srcfolder "$STAGE" \
-  -ov -format UDZO \
+  -fs APFS \
+  -ov \
+  -format ULFO \
   "$DMG_PATH"
 
-# Notarize the DMG too: downloaded DMGs are quarantined and assessed as well.
 echo "==> Notarizing DMG"
-xcrun notarytool submit "$DMG_PATH" --wait --keychain-profile "${NOTARY_PROFILE}"
+xcrun notarytool submit "$DMG_PATH" --wait --keychain-profile "$NOTARY_PROFILE"
 xcrun stapler staple "$DMG_PATH"
+xcrun stapler validate "$DMG_PATH"
+spctl -a -t open --context context:primary-signature -vv "$DMG_PATH"
 
-echo
-echo "DMG written to: $DMG_PATH (signed and notarized)"
+echo "DMG: $DMG_PATH"

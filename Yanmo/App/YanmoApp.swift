@@ -1,10 +1,12 @@
 import SwiftUI
 import AppKit
 import Combine
+import Sparkle
 
 @main
 struct YanmoApp: App {
     @StateObject private var settings = AppSettings.shared
+    @StateObject private var updater = AppUpdater()
 
     init() {
         // Instantiate early so it observes the first document window.
@@ -19,6 +21,7 @@ struct YanmoApp: App {
         }
         .commands {
             TemplateCommands(store: .shared)
+            UpdateCommands(updater: updater)
             FormatCommands()
             FindCommands()
             ViewModeCommands(settings: settings)
@@ -30,6 +33,49 @@ struct YanmoApp: App {
         Settings {
             PreferencesView()
                 .environmentObject(settings)
+        }
+    }
+}
+
+// MARK: - Updates
+
+@MainActor
+private final class AppUpdater: ObservableObject {
+    @Published private(set) var canCheck = false
+
+    private let controller: SPUStandardUpdaterController
+    private var observation: NSKeyValueObservation?
+
+    init() {
+        controller = SPUStandardUpdaterController(
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
+
+        observation = controller.updater.observe(
+            \.canCheckForUpdates,
+            options: [.initial, .new]
+        ) { [weak self] updater, _ in
+            Task { @MainActor in
+                self?.canCheck = updater.canCheckForUpdates
+            }
+        }
+    }
+
+    func check() {
+        controller.checkForUpdates(nil)
+    }
+}
+
+private struct UpdateCommands: Commands {
+    @ObservedObject var updater: AppUpdater
+
+    var body: some Commands {
+        CommandGroup(after: .appInfo) {
+            Button("Check for Updates…") {
+                updater.check()
+            }
+            .disabled(!updater.canCheck)
         }
     }
 }
