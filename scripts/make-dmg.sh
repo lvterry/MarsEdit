@@ -13,6 +13,7 @@ readonly EXPORT_DIR="${BUILD_DIR}/export"
 readonly EXPORT_OPTIONS="scripts/ExportOptions.plist"
 readonly SOURCE_PACKAGES="${BUILD_DIR}/SourcePackages"
 readonly INFO_PLIST="${PROJECT_NAME}/Info.plist"
+readonly SIGN_IDENTITY="Developer ID Application"
 
 readonly VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$INFO_PLIST")
 readonly DMG_PATH="${DIST_DIR}/${APP_NAME}-${VERSION}.dmg"
@@ -73,6 +74,10 @@ hdiutil create \
   -ov \
   -format ULFO \
   "$DMG_PATH"
+
+echo "==> Signing DMG"
+codesign --force --timestamp --sign "$SIGN_IDENTITY" "$DMG_PATH"
+codesign --verify --strict --verbose=2 "$DMG_PATH"
 
 echo "==> Notarizing DMG"
 xcrun notarytool submit "$DMG_PATH" --wait --keychain-profile "$NOTARY_PROFILE"
