@@ -98,6 +98,12 @@ a {
   gap: var(--space-5);
 }
 
+.app-icon {
+  inline-size: 5.5rem;
+  block-size: 5.5rem;
+  filter: drop-shadow(0 6px 16px rgb(18 24 31 / 0.18));
+}
+
 h1 {
   max-inline-size: 19ch;
   margin: 0;
