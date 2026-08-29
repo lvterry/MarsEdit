@@ -11,6 +11,8 @@
 		06A661E8EEA3024785F5ED3D /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107821B459DD049973057088 /* TemplateStore.swift */; };
 		09E5973F989AE6BB6F3A50F1 /* PDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A26AC13A0E033136D08A8D /* PDFExporter.swift */; };
 		0EFD6EA34D8E18516A3FEA87 /* FrontMatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23435B528CA593DA23C135FA /* FrontMatterTests.swift */; };
+		1189CCB84156753D8C303F76 /* FileReloadServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16A237B63D19B3E7FD0BF19 /* FileReloadServiceTests.swift */; };
+		18F81A6A1B4128FA9EF8F80F /* FileReloadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8873E942BE160E9EB61CD64D /* FileReloadService.swift */; };
 		176448201F835B471376DED4 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6644D7851974395F9550DA /* Markdown */; };
 		244F4CC51329121F05D17C10 /* YanmoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2CBAE570E61F0204C6CD65 /* YanmoApp.swift */; };
 		2CEB74E036F599E174B4878C /* MarkdownRendererPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18937599CC2BA3C3B05B96C /* MarkdownRendererPathTests.swift */; };
@@ -85,7 +87,9 @@
 		7FC4E9AFE81A9E12B7D306B6 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
 		7FDA74E25AB6EFF47374CABE /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8810561BEE28DE409FCCE05D /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
+		8873E942BE160E9EB61CD64D /* FileReloadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReloadService.swift; sourceTree = "<group>"; };
 		91A26AC13A0E033136D08A8D /* PDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExporter.swift; sourceTree = "<group>"; };
+		A16A237B63D19B3E7FD0BF19 /* FileReloadServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReloadServiceTests.swift; sourceTree = "<group>"; };
 		9305B2995E9BE7292DC42847 /* Yanmo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yanmo.entitlements; sourceTree = "<group>"; };
 		9D36B36EED539F5EDB804A8A /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		B19D6A1CE628230B6A5341B7 /* Yanmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yanmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +148,7 @@
 		3A11FF66C1568FF4E128A684 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				8873E942BE160E9EB61CD64D /* FileReloadService.swift */,
 				0DA764111126304D2A68791C /* MarkdownDocument.swift */,
 			);
 			path = Document;
@@ -154,6 +159,7 @@
 			children = (
 				54AC50BB96377FAFB977D381 /* AppSettingsThemeTests.swift */,
 				BE01326BF9DC666C9D2EA744 /* CommandLineToolInstallerTests.swift */,
+				A16A237B63D19B3E7FD0BF19 /* FileReloadServiceTests.swift */,
 				23435B528CA593DA23C135FA /* FrontMatterTests.swift */,
 				F18937599CC2BA3C3B05B96C /* MarkdownRendererPathTests.swift */,
 				1B366B70318C26E7210C29A7 /* MarkdownRendererSanitizationTests.swift */,
@@ -355,6 +361,7 @@
 			files = (
 				A37B7F192C341DBFAEE8E89C /* AppSettingsThemeTests.swift in Sources */,
 				503E3EB0AC383A22CC289FEA /* CommandLineToolInstallerTests.swift in Sources */,
+				1189CCB84156753D8C303F76 /* FileReloadServiceTests.swift in Sources */,
 				0EFD6EA34D8E18516A3FEA87 /* FrontMatterTests.swift in Sources */,
 				2CEB74E036F599E174B4878C /* MarkdownRendererPathTests.swift in Sources */,
 				428926D09F5A868DE1717321 /* MarkdownRendererSanitizationTests.swift in Sources */,
@@ -372,6 +379,7 @@
 				8277CB3F701D0BE305CE0584 /* ContentView.swift in Sources */,
 				33D8F74E047954F67A364624 /* DefaultWindowSize.swift in Sources */,
 				0072377411698E8BC36B98E8 /* EditorView.swift in Sources */,
+				18F81A6A1B4128FA9EF8F80F /* FileReloadService.swift in Sources */,
 				B9EA2FAA6E212C5861FAAA1F /* FontPickerButton.swift in Sources */,
 				B00377A35D123668ACD1A359 /* FrontMatter.swift in Sources */,
 				89917770A629FACA8CBC0B77 /* HTMLExporter.swift in Sources */,

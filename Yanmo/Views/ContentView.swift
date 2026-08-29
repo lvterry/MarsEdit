@@ -5,6 +5,7 @@ struct ContentView: View {
     let fileURL: URL?
     @EnvironmentObject var settings: AppSettings
     @StateObject private var session = DocumentSession()
+    @StateObject private var fileReloader = FileReloadService()
 
     @State private var cursorPosition: (line: Int, column: Int) = (1, 1)
     @State private var outlineItems: [OutlineItem] = []
@@ -80,7 +81,10 @@ struct ContentView: View {
         .onAppear {
             updateOutline(text: document.text)
             applyAppearanceMode(settings.appearanceMode)
+            startFileReload()
         }
+        .onChange(of: fileURL) { _ in startFileReload() }
+        .onDisappear { fileReloader.stop() }
         .onChange(of: settings.appearanceMode) { mode in
             applyAppearanceMode(mode)
         }
@@ -127,6 +131,14 @@ struct ContentView: View {
     private func checkLargeFile(text: String) {
         if document.isLargeFile {
             showToast("Large file — some features like live preview may be slower.")
+        }
+    }
+
+    // MARK: - External Changes
+
+    private func startFileReload() {
+        fileReloader.start(url: fileURL, document: document) { message in
+            session.post(.showToast(message))
         }
     }
 
