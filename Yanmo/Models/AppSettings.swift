@@ -24,6 +24,11 @@ enum DefaultPageSize: String, CaseIterable, Codable {
 final class AppSettings: ObservableObject {
     static let shared = AppSettings()
 
+    private static let crashConsentKey = "crashReportingConsent"
+
+    @Published private(set) var crashConsent: CrashConsent
+    private let defaults: UserDefaults
+
     // MARK: - Editor
     @AppStorage("editorFontName") var editorFontName: String = "JetBrains Mono"
     @AppStorage("editorFontSize") var editorFontSize: Double = 15.0
@@ -38,9 +43,16 @@ final class AppSettings: ObservableObject {
 
     private var _appearanceObserver: NSKeyValueObservation?
 
-    init() {
-        AppSettings.migrateIfNeeded(defaults: .standard)
-        _appearanceObserver = NSApp.observe(\.effectiveAppearance, options: [.new]) { [weak self] _, _ in
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        crashConsent = CrashConsent(
+            rawValue: defaults.string(forKey: Self.crashConsentKey) ?? ""
+        ) ?? .unknown
+
+        AppSettings.migrateIfNeeded(defaults: defaults)
+        guard let app = NSApp else { return }
+
+        _appearanceObserver = app.observe(\.effectiveAppearance, options: [.new]) { [weak self] _, _ in
             DispatchQueue.main.async { self?.objectWillChange.send() }
         }
     }
@@ -54,6 +66,11 @@ final class AppSettings: ObservableObject {
             }
         }
         defaults.removeObject(forKey: "selectedThemeId")
+    }
+
+    func setCrashConsent(_ consent: CrashConsent) {
+        crashConsent = consent
+        defaults.set(consent.rawValue, forKey: Self.crashConsentKey)
     }
 
     // MARK: - Export

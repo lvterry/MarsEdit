@@ -82,7 +82,7 @@ readonly RELEASE_PREFIX="https://github.com/${REPOSITORY}/releases/download/${TA
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] \
   || fail "version must contain two or three numeric components"
 
-for tool in curl gh git plutil xcodebuild xcodegen xmllint; do
+for tool in curl gh git plutil sentry-cli xcodebuild xcodegen xmllint; do
   require_tool "$tool"
 done
 

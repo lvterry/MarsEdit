@@ -11,6 +11,9 @@ packages:
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle.git
     exactVersion: "2.9.6"
+  Sentry:
+    url: https://github.com/getsentry/sentry-cocoa.git
+    exactVersion: "9.26.1"
 
 targets:
   Yanmo:
@@ -37,6 +40,8 @@ targets:
         product: Markdown
       - package: Sparkle
         product: Sparkle
+      - package: Sentry
+        product: Sentry
     settings:
       base:
         SWIFT_VERSION: "5.9"

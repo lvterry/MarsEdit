@@ -11,13 +11,26 @@ struct YanmoApp: App {
     init() {
         // Instantiate early so it observes the first document window.
         _ = DefaultWindowSize.shared
+        CrashReporter.shared.startIfAllowed(AppSettings.shared.crashConsent)
     }
 
     var body: some Scene {
         DocumentGroup(newDocument: { MarkdownDocument() }) { file in
+            let feature: CrashFeature = settings.viewMode == .previewOnly
+                ? .previewing
+                : .editing
+            let document: CrashDocumentState = file.fileURL == nil
+                ? .unsaved
+                : .saved
+
             ContentView(document: file.document, fileURL: file.fileURL)
                 .environmentObject(settings)
                 .frame(minWidth: 700, minHeight: 500)
+                .crashConsentPrompt(
+                    settings: settings,
+                    feature: feature,
+                    document: document
+                )
         }
         .commands {
             TemplateCommands(store: .shared)

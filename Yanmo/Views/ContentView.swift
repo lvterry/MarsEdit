@@ -77,16 +77,24 @@ struct ContentView: View {
         .onChange(of: document.text) { newValue in
             updateOutline(text: newValue)
             checkLargeFile(text: newValue)
+            CrashReporter.shared.record(featureState, document: .unsaved)
         }
         .onAppear {
             updateOutline(text: document.text)
             applyAppearanceMode(settings.appearanceMode)
             startFileReload()
+            recordState()
         }
-        .onChange(of: fileURL) { _ in startFileReload() }
+        .onChange(of: fileURL) { _ in
+            startFileReload()
+            recordState()
+        }
         .onDisappear { fileReloader.stop() }
         .onChange(of: settings.appearanceMode) { mode in
             applyAppearanceMode(mode)
+        }
+        .onChange(of: settings.viewMode) { _ in
+            recordState()
         }
     }
 
@@ -126,6 +134,15 @@ struct ContentView: View {
         outlineItems = OutlineParser.parse(text)
     }
 
+    private var featureState: CrashFeature {
+        settings.viewMode == .previewOnly ? .previewing : .editing
+    }
+
+    private func recordState() {
+        let state: CrashDocumentState = fileURL == nil ? .unsaved : .saved
+        CrashReporter.shared.record(featureState, document: state)
+    }
+
     // MARK: - Large File Warning
 
     private func checkLargeFile(text: String) {
@@ -161,6 +178,8 @@ struct ContentView: View {
     // MARK: - Export HTML
 
     private func exportHTML() {
+        CrashReporter.shared.record(.exportingHTML)
+
         let theme = settings.currentTheme
         let exporter = HTMLExporter(theme: theme)
         let html = exporter.exportForBrowser(markdown: document.text, documentDirectory: fileURL?.deletingLastPathComponent())
@@ -182,6 +201,8 @@ struct ContentView: View {
     // MARK: - Export PDF
 
     private func exportPDF() {
+        CrashReporter.shared.record(.exportingPDF)
+
         let theme: Theme
         if !settings.pdfExportThemeId.isEmpty, let t = Theme.theme(for: settings.pdfExportThemeId) {
             theme = t

@@ -16,9 +16,46 @@ struct PreferencesView: View {
 
             CommandLineTab()
                 .tabItem { Label("Command Line", systemImage: "terminal") }
+
+            DiagnosticsTab()
+                .tabItem { Label("Diagnostics", systemImage: "waveform.path.ecg") }
         }
         .environmentObject(settings)
         .frame(width: 480, height: 380)
+    }
+}
+
+// MARK: - Diagnostics Tab
+
+private struct DiagnosticsTab: View {
+    @EnvironmentObject var settings: AppSettings
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle("Share crash diagnostics", isOn: consent)
+
+                Text("Sends the Yanmo version, macOS version, hardware architecture, and crash stack. Document contents and filenames are excluded.")
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .formStyle(.grouped)
+        .padding()
+        .onAppear {
+            CrashReporter.shared.record(.updatingSettings)
+        }
+    }
+
+    private var consent: Binding<Bool> {
+        Binding(
+            get: { settings.crashConsent == .allowed },
+            set: { allowed in
+                let consent: CrashConsent = allowed ? .allowed : .denied
+                settings.setCrashConsent(consent)
+                CrashReporter.shared.apply(consent)
+            }
+        )
     }
 }
 

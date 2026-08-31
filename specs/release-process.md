@@ -2,8 +2,19 @@
 
 ## One-time setup
 
-Install `xcodegen` and `gh`. Authenticate `gh`. Keep the Developer ID
-certificate and `yanmo-notary` profile in the release Mac's login Keychain.
+Install `xcodegen`, `gh`, and `sentry-cli`. Authenticate `gh`. Keep the
+Developer ID certificate and `yanmo-notary` profile in the release Mac's login
+Keychain.
+
+```bash
+brew install getsentry/tools/sentry-cli
+```
+
+The Sentry `org:ci` token is stored in the login Keychain under service
+`com.yanmo.app.sentry` and account `org-ci`. The release command reads it only
+for release creation and dSYM upload. Store the raw `sntrys_…` value without a
+label, `Bearer` prefix, or whitespace. The release command validates it before
+archiving.
 
 The Sparkle private key is stored in the login Keychain under account
 `com.yanmo.app`. Back it up outside this repository:
@@ -22,21 +33,57 @@ Start with a clean `main` branch. The notes must mention that 0.8 and older need
 this final manual installation.
 
 ```bash
-./scripts/release.sh 0.9 /path/to/release-notes.md
+./scripts/release.sh 0.10.0 /path/to/release-notes.md
 ```
 
 The command rejects reused versions, tags, and stale build numbers. It then:
 
 1. Runs tests.
 2. Archives and exports with Developer ID signing.
-3. Notarizes and staples the app and DMG.
-4. Generates and verifies the signed appcast.
-5. Pushes the version commit and tag.
-6. Creates the GitHub release and verifies both public assets.
-7. Commits the appcast and publishes GitHub Pages last.
+3. Verifies the app and dSYM UUIDs, then uploads symbols to Sentry.
+4. Notarizes and staples the app and DMG.
+5. Preserves the archive and its release metadata in Xcode Organizer.
+6. Generates and verifies the signed appcast.
+7. Pushes the version commit and tag.
+8. Creates the GitHub release and verifies both public assets.
+9. Commits the appcast and publishes GitHub Pages last.
 
 GitHub Pages is created from `main:/docs` on the first release. Later releases
 must keep that source.
+
+## Sentry staging test
+
+Build a non-publishing `0.10.0 (8.1)` DMG before the public release:
+
+```bash
+./scripts/build-sentry-test.sh
+```
+
+This uses the normal signing, notarization, and dSYM upload path. It identifies
+events as release `com.yanmo.app@0.10.0+8.1` in Sentry's `staging` environment.
+It does not commit, tag, update the appcast, or create a GitHub release. The
+script restores `Yanmo/Info.plist` after success or failure.
+
+If build `8.1` was already archived, pass another pre-release build below `9`:
+
+```bash
+./scripts/build-sentry-test.sh 8.3
+```
+
+Install `dist/Yanmo-0.10.0.dmg` outside Xcode. Accept crash diagnostics, open
+and save a test document, then terminate Yanmo with a real crash signal:
+
+```bash
+kill -SEGV "$(pgrep -x Yanmo)"
+```
+
+Relaunch Yanmo so the prior crash can upload. In Sentry, confirm the release,
+`staging` environment, readable Yanmo stack frames, and absence of document
+contents, filenames, user identity, IP address, and unrelated breadcrumbs.
+Sentry may derive coarse geography after discarding the IP; this accepted
+server-side limitation is recorded in `specs/sentry-integration-plan.md`.
+Delete the test document when finished. The public `0.10.0` release uses build
+`9` and the `production` environment.
 
 If publication fails before the appcast push, fix the cause and continue without
 reusing the version or tag. If a bad appcast is already public, remove its item
