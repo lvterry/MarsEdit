@@ -86,9 +86,9 @@ a {
 .hero {
   display: grid;
   flex: 1;
-  grid-template-columns: minmax(18rem, 0.78fr) minmax(32rem, 1.22fr);
+  grid-template-columns: minmax(17rem, 0.72fr) minmax(30rem, 1.28fr);
   align-items: center;
-  gap: clamp(var(--space-6), 7vw, 7rem);
+  gap: clamp(var(--space-5), 5vw, var(--space-6));
 }
 
 .intro {
@@ -232,7 +232,7 @@ h1 {
 }
 
 .demo-backdrop {
-  padding: clamp(1.25rem, 3.5vw, 3rem);
+  padding: clamp(1rem, 2.5vw, 2rem);
   border-radius: calc(var(--radius-window) + 1rem);
   background: linear-gradient(135deg, #8f6ad8 0%, #e05f96 48%, #f5a45c 100%);
 }
@@ -249,7 +249,8 @@ h1 {
 
   display: flex;
   flex-direction: column;
-  block-size: clamp(26rem, 42vw, 34rem);
+  aspect-ratio: 1.6;
+  min-block-size: 20rem;
   overflow: hidden;
   border: 1px solid var(--demo-chrome-border);
   border-radius: var(--radius-window);
@@ -719,6 +720,11 @@ h1 {
 }
 
 @media (max-width: 34rem) {
+  .demo-window {
+    aspect-ratio: auto;
+    block-size: 26rem;
+  }
+
   .demo-window[data-view="split"] .demo-panes {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr) 1px minmax(0, 1fr);
