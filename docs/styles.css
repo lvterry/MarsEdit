@@ -372,6 +372,8 @@ h1 {
   font-family: Georgia, serif;
   font-size: 1.4rem;
   line-height: 0;
+  /* Hanging quote ink sits high; center it optically with the neighbors. */
+  transform: translateY(0.3em);
 }
 
 .demo-icon {
