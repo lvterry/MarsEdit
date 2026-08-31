@@ -8,7 +8,7 @@
   const sampleDocument = [
     "# Write in Markdown. See it as you type.",
     "",
-    "Yanmo is a native macOS editor for people who prefer **simple files** and a focused workspace.",
+    "Yanmo is a native macOS editor for people who prefer **simple files** and a *focused* workspace.",
     "",
     "## Built for everyday documents",
     "",
@@ -97,6 +97,7 @@
     }
 
     const ordered = /\d/.test(first[2]);
+    const sameKind = (marker) => /\d/.test(marker) === ordered;
     const baseIndent = first[1].length;
     const items = [];
     let index = start;
@@ -107,7 +108,7 @@
       if (line.trim() === "") {
         const next = lines[index + 1];
         const nextMatch = next !== undefined ? next.match(listPattern) : null;
-        if (nextMatch && nextMatch[1].length >= baseIndent) {
+        if (nextMatch && nextMatch[1].length >= baseIndent && sameKind(nextMatch[2])) {
           index++;
           continue;
         }
@@ -115,7 +116,7 @@
       }
 
       const match = line.match(listPattern);
-      if (!match || match[1].length < baseIndent) {
+      if (!match || match[1].length < baseIndent || !sameKind(match[2])) {
         break;
       }
 
@@ -493,6 +494,70 @@
       demoWindow.dataset.view = button.dataset.view;
       viewButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
     });
+  });
+
+  // Draggable pane divider, like the app's split view.
+
+  const panes = demoWindow.querySelector(".demo-panes");
+  const divider = document.getElementById("demo-pane-divider");
+  const minPaneRatio = 0.2;
+  const keyboardResizeStep = 0.02;
+  const stackedLayout = window.matchMedia("(max-width: 34rem)");
+
+  const pointerRatio = (clientX) => {
+    const bounds = panes.getBoundingClientRect();
+    return (clientX - bounds.left - divider.offsetWidth / 2) / (bounds.width - divider.offsetWidth);
+  };
+
+  const paneRatio = () => {
+    const bounds = panes.getBoundingClientRect();
+    return (panes.firstElementChild.getBoundingClientRect().width + divider.offsetWidth / 2) / bounds.width;
+  };
+
+  function setPaneRatio(ratio) {
+    const clamped = Math.min(Math.max(ratio, minPaneRatio), 1 - minPaneRatio);
+    panes.style.gridTemplateColumns = `${(clamped * 100).toFixed(2)}% 1px minmax(0, 1fr)`;
+    divider.setAttribute("aria-valuenow", String(Math.round(clamped * 100)));
+  }
+
+  function stopPaneDrag(event) {
+    divider.classList.remove("is-dragging");
+    if (divider.hasPointerCapture(event.pointerId)) {
+      divider.releasePointerCapture(event.pointerId);
+    }
+  }
+
+  divider.addEventListener("pointerdown", (event) => {
+    if (stackedLayout.matches) {
+      return;
+    }
+    event.preventDefault();
+    divider.setPointerCapture(event.pointerId);
+    divider.classList.add("is-dragging");
+  });
+
+  divider.addEventListener("pointermove", (event) => {
+    if (!divider.classList.contains("is-dragging")) {
+      return;
+    }
+    setPaneRatio(pointerRatio(event.clientX));
+  });
+
+  divider.addEventListener("pointerup", stopPaneDrag);
+  divider.addEventListener("pointercancel", stopPaneDrag);
+
+  divider.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+      return;
+    }
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    setPaneRatio(paneRatio() + direction * keyboardResizeStep);
+  });
+
+  // The stacked phone layout manages its own grid tracks.
+  stackedLayout.addEventListener("change", () => {
+    panes.style.gridTemplateColumns = "";
   });
 
   // Editor events

@@ -13,6 +13,7 @@
     <link rel="icon" href="assets/favicon.png" sizes="32x32" type="image/png">
     <link rel="preload" href="assets/fonts/source-sans-pro-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/source-sans-pro-semibold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/source-sans-pro-italic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="styles.css">
     <script src="site.js" defer></script>
     <script defer src="https://analytics.putaoso.com/script.js" data-website-id="4842d7b9-3dff-43f0-b110-4cd3dcc1bb30"></script>
@@ -23,7 +24,7 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="intro">
           <img class="app-icon" src="assets/appicon.png" width="88" height="88" alt="Yanmo app icon">
-          <h1 id="hero-title">Yanmo is a native Markdown editor for macOS, with a side by side editor, live preview, templates, themes, and clean HTML/PDF export.</h1>
+          <h1 id="hero-title">Yanmo is a native macOS editor for people who prefer simplilicty and a focused workspace.</h1>
 
           <div class="download">
             <a class="download-button" href="https://github.com/lvterry/Yanmo/releases/download/v0.9/Yanmo-0.9.dmg" data-umami-event="download">Download public beta</a>
@@ -98,7 +99,7 @@
                   <label class="visually-hidden" for="demo-editor">Markdown source</label>
                   <textarea id="demo-editor" class="demo-editor" spellcheck="false" autocomplete="off" wrap="soft"></textarea>
                 </div>
-                <div class="demo-pane-divider" aria-hidden="true"></div>
+                <div class="demo-pane-divider" id="demo-pane-divider" role="separator" aria-orientation="vertical" aria-label="Resize editor and preview panes" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50" tabindex="0"></div>
                 <div class="demo-preview-pane">
                   <div class="demo-preview" id="demo-preview" role="region" aria-label="Markdown preview"></div>
                 </div>

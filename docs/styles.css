@@ -14,6 +14,15 @@
   src: url("assets/fonts/source-sans-pro-semibold.woff2") format("woff2");
 }
 
+/* Variable italic face covering 400-700, used by <em> in the live preview. */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("assets/fonts/source-sans-pro-italic.woff2") format("woff2");
+}
+
 :root {
   color-scheme: light dark;
   --color-page: oklch(0.985 0.003 255);
@@ -461,7 +470,23 @@ h1 {
 }
 
 .demo-pane-divider {
+  position: relative;
   background: var(--demo-chrome-border);
+  cursor: col-resize;
+  touch-action: none;
+}
+
+/* Invisible hit area around the 1px line, like the app's split divider. */
+.demo-pane-divider::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: -3px;
+  content: "";
+}
+
+.demo-pane-divider:hover,
+.demo-pane-divider.is-dragging {
+  background: color-mix(in oklch, var(--demo-editor-text) 35%, var(--demo-chrome-border));
 }
 
 .demo-preview-pane {
@@ -654,8 +679,13 @@ h1 {
 }
 
 .demo-preview .task-list {
-  list-style: none;
   padding-inline-start: 1.5em;
+}
+
+/* Hide the marker on task items only, so sibling bullet/numbered
+   items in a merged list keep theirs. */
+.demo-preview li.task-list-item {
+  list-style: none;
 }
 
 .demo-preview .task-list-item input[type="checkbox"] {
@@ -702,7 +732,8 @@ h1 {
 
 .demo-tool:focus-visible,
 .demo-viewmode button:focus-visible,
-.demo-menu button:focus-visible {
+.demo-menu button:focus-visible,
+.demo-pane-divider:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
