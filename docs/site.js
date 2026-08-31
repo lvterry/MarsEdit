@@ -426,7 +426,7 @@
 
   const actionHandlers = {
     bold: () => applyWrap("**", "**"),
-    italic: () => applyWrap("_", "_"),
+    italic: () => applyWrap("*", "*"),
     strikethrough: () => applyWrap("~~", "~~"),
     inlineCode: () => applyWrap("`", "`"),
     codeBlock: () => applyWrap("```\n", "\n```"),
