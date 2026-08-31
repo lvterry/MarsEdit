@@ -13,7 +13,6 @@
     <link rel="icon" href="assets/favicon.png" sizes="32x32" type="image/png">
     <link rel="preload" href="assets/fonts/source-sans-pro-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/source-sans-pro-semibold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/screenshots/yanmo-split.png" as="image">
     <link rel="stylesheet" href="styles.css">
     <script src="site.js" defer></script>
     <script defer src="https://analytics.putaoso.com/script.js" data-website-id="4842d7b9-3dff-43f0-b110-4cd3dcc1bb30"></script>
@@ -32,23 +31,89 @@
           </div>
         </div>
 
-        <section class="showcase" aria-label="Yanmo app screenshots">
-          <div class="slides" aria-live="off">
-            <figure class="slide is-active" id="slide-split" aria-hidden="false">
-              <img src="assets/screenshots/yanmo-split.png" width="1500" height="883" alt="Yanmo showing Markdown source and its live preview side by side" fetchpriority="high">
-            </figure>
-            <figure class="slide" id="slide-editor" aria-hidden="true">
-              <img src="assets/screenshots/yanmo-editor.png" width="1500" height="883" alt="Yanmo in its focused editor-only view">
-            </figure>
-            <figure class="slide" id="slide-preview" aria-hidden="true">
-              <img src="assets/screenshots/yanmo-preview.png" width="1500" height="883" alt="Yanmo in its clean preview-only view">
-            </figure>
-          </div>
+        <section class="showcase" aria-label="Interactive demo of the Yanmo editor">
+          <div class="demo-backdrop">
+            <div class="demo-window" data-view="split">
+              <div class="demo-titlebar">
+                <span class="demo-lights" aria-hidden="true">
+                  <span class="demo-light is-close"></span>
+                  <span class="demo-light is-min"></span>
+                  <span class="demo-light is-zoom"></span>
+                </span>
+                <span class="demo-title">
+                  <svg class="demo-doc-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 1.5h4.8l3.2 3.2v9.3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-11.5a1 1 0 0 1 1-1z"/><path d="M9.3 1.5v3.2h3.2"/></svg>
+                  Yanmo Demo.md
+                </span>
+                <div class="demo-viewmode" role="group" aria-label="View mode">
+                  <button type="button" data-view="split" aria-pressed="true">Split</button>
+                  <button type="button" data-view="editor" aria-pressed="false">Editor</button>
+                  <button type="button" data-view="preview" aria-pressed="false">Preview</button>
+                </div>
+              </div>
 
-          <div class="carousel-controls" role="group" aria-label="Choose a screenshot">
-            <button class="carousel-control" type="button" aria-label="Show split view" aria-controls="slide-split" aria-current="true"><span aria-hidden="true"></span></button>
-            <button class="carousel-control" type="button" aria-label="Show editor view" aria-controls="slide-editor" aria-current="false"><span aria-hidden="true"></span></button>
-            <button class="carousel-control" type="button" aria-label="Show preview view" aria-controls="slide-preview" aria-current="false"><span aria-hidden="true"></span></button>
+              <div class="demo-toolbar" role="toolbar" aria-label="Markdown formatting">
+                <button class="demo-tool" type="button" data-action="bold" title="Bold"><span class="demo-glyph is-bold">B</span></button>
+                <button class="demo-tool" type="button" data-action="italic" title="Italic"><span class="demo-glyph is-italic">I</span></button>
+                <button class="demo-tool" type="button" data-action="strikethrough" title="Strikethrough"><span class="demo-glyph is-strike">S</span></button>
+
+                <span class="demo-toolbar-divider" aria-hidden="true"></span>
+
+                <div class="demo-heading">
+                  <button class="demo-tool" type="button" id="demo-heading-button" aria-haspopup="true" aria-expanded="false" title="Heading">
+                    <span class="demo-glyph">Aa</span>
+                    <svg class="demo-chevron" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+                  </button>
+                  <div class="demo-menu" id="demo-heading-menu" role="menu" aria-label="Heading level" hidden>
+                    <button type="button" role="menuitem" data-heading="1">Heading 1</button>
+                    <button type="button" role="menuitem" data-heading="2">Heading 2</button>
+                    <button type="button" role="menuitem" data-heading="3">Heading 3</button>
+                  </div>
+                </div>
+
+                <span class="demo-toolbar-divider" aria-hidden="true"></span>
+
+                <button class="demo-tool" type="button" data-action="inlineCode" title="Inline Code"><span class="demo-glyph is-mono">&lt;/&gt;</span></button>
+                <button class="demo-tool" type="button" data-action="codeBlock" title="Code Block"><span class="demo-glyph is-mono">{ }</span></button>
+
+                <span class="demo-toolbar-divider" aria-hidden="true"></span>
+
+                <button class="demo-tool" type="button" data-action="link" title="Link"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+                <button class="demo-tool" type="button" data-action="image" title="Image"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>
+
+                <span class="demo-toolbar-divider" aria-hidden="true"></span>
+
+                <button class="demo-tool" type="button" data-action="orderedList" title="Ordered List"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></button>
+                <button class="demo-tool" type="button" data-action="unorderedList" title="Unordered List"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></button>
+                <button class="demo-tool" type="button" data-action="taskList" title="Task List"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M3 5.5l1.5 1.5L7 4.5"/><path d="M3 11.5l1.5 1.5L7 10.5"/><path d="M3 17.5l1.5 1.5L7 16.5"/></svg></button>
+
+                <span class="demo-toolbar-divider" aria-hidden="true"></span>
+
+                <button class="demo-tool" type="button" data-action="blockquote" title="Blockquote"><span class="demo-glyph is-quote">&rdquo;</span></button>
+                <button class="demo-tool" type="button" data-action="horizontalRule" title="Horizontal Rule"><svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/></svg></button>
+              </div>
+
+              <div class="demo-panes">
+                <div class="demo-editor-pane">
+                  <pre class="demo-highlight" aria-hidden="true"><code id="demo-highlight-code"></code></pre>
+                  <label class="visually-hidden" for="demo-editor">Markdown source</label>
+                  <textarea id="demo-editor" class="demo-editor" spellcheck="false" autocomplete="off" wrap="soft"></textarea>
+                </div>
+                <div class="demo-pane-divider" aria-hidden="true"></div>
+                <div class="demo-preview-pane">
+                  <div class="demo-preview" id="demo-preview" role="region" aria-label="Markdown preview"></div>
+                </div>
+              </div>
+
+              <div class="demo-statusbar">
+                <span id="demo-stat-words">0 words</span>
+                <span class="demo-status-divider" aria-hidden="true"></span>
+                <span id="demo-stat-time">&lt; 1 min</span>
+                <span class="demo-status-divider" aria-hidden="true"></span>
+                <span id="demo-stat-cursor">Ln 1, Col 1</span>
+                <span class="demo-status-spacer" aria-hidden="true"></span>
+                <span>UTF-8</span>
+              </div>
+            </div>
           </div>
         </section>
       </section>
